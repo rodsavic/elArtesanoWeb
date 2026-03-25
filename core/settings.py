@@ -31,11 +31,13 @@ ALLOWED_HOSTS = [
     'web-production-1e3ba.up.railway.app',
     '127.0.0.1',
     'web-gunicorn-corewsgi-production-08f7.up.railway.app',
+    'elartesanoweb-production.up.railway.app'
 ]
 CSRF_TRUSTED_ORIGINS = [
     'https://web-production-1e3ba.up.railway.app',
     'https://127.0.0.1',
     'https://web-gunicorn-corewsgi-production-08f7.up.railway.app',
+    'elartesanoweb-production.up.railway.app'
 ]
 
 

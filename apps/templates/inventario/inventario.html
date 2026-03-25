@@ -1,0 +1,64 @@
+{% extends "base/base.html" %}
+
+{% block title %}Movimientos{% endblock %}
+
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+{% block content %}
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h1>Movimientos de productos</h1>
+
+        <div class="row p-3 card-title align-items-center">
+            <div class="col-md-8 col-12 mb-2 mb-md-0">
+                <form class="d-flex" method="get">
+                    <input type="text" name="q" value="{{ query }}" class="form-control form-control-sm me-2" placeholder="Buscar por producto...">
+                    <button type="submit" class="btn btn-limpiar btn-sm">Buscar</button>
+                </form>
+            </div>
+            <div class="col-md-4 col-12 d-flex justify-content-md-end justify-content-center">
+                <a class="btn btn-crear btn-sm" href="{% url 'inventario:crear_inventario' %}">
+                    <i class="bi bi-plus-circle"></i> Nuevo movimiento
+                </a>
+            </div>
+        </div>
+
+        {% if items_page %}
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="text-center table-head-color">
+                <tr>
+                    <th style="color:white;">Fecha</th>
+                    <th style="color:white;">Producto</th>
+                    <th style="color:white;">Tipo</th>
+                    <th style="color:white;">Cantidad</th>
+                    <th style="color:white;">Stock anterior</th>
+                    <th style="color:white;">Stock posterior</th>
+                    <th style="color:white;">Referencia</th>
+                    <th style="color:white;">Observacion</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for movimiento in items_page %}
+                <tr>
+                    <td>{{ movimiento.fecha_movimiento|date:"d/m/Y H:i" }}</td>
+                    <td>{{ movimiento.producto.nombre }}</td>
+                    <td>{{ movimiento.get_tipo_movimiento_display }}</td>
+                    <td class="text-end">{{ movimiento.cantidad }}</td>
+                    <td class="text-end">{{ movimiento.stock_anterior }}</td>
+                    <td class="text-end">{{ movimiento.stock_posterior }}</td>
+                    <td>{{ movimiento.referencia }}</td>
+                    <td>{{ movimiento.observacion }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% include "base/pagination.html" with items_page=items_page %}
+        </div>
+        {% else %}
+            {% include "base/sin_registro.html" %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

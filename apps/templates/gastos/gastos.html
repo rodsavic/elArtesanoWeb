@@ -1,0 +1,115 @@
+{% extends "base/base.html" %}
+
+{% block title %}Gastos{% endblock %}
+
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+{% block content %}
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h1>Listado de gastos</h1>
+
+        <form method="get" class="row g-3 align-items-end mb-4">
+            <div class="col-md-3">
+                <label class="form-label">Desde</label>
+                <input type="date" class="form-control" name="fecha_desde" value="{{ fecha_desde }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Hasta</label>
+                <input type="date" class="form-control" name="fecha_hasta" value="{{ fecha_hasta }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" value="{{ nombre }}" placeholder="Buscar compra...">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Monto</label>
+                <select class="form-control" name="orden_monto">
+                    <option value="">Sin ordenar</option>
+                    <option value="asc" {% if orden_monto == 'asc' %}selected{% endif %}>Ascendente</option>
+                    <option value="desc" {% if orden_monto == 'desc' %}selected{% endif %}>Descendente</option>
+                </select>
+            </div>
+            <div class="col-md-1 d-grid">
+                <button type="submit" class="btn btn-limpiar btn-sm">Filtrar</button>
+            </div>
+        </form>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <div class="p-3 rounded border bg-light">
+                    <div class="text-muted small">Total filtrado</div>
+                    <div class="fs-4 fw-bold">Gs {{ total_filtrado|floatformat:0 }}</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 rounded border bg-light">
+                    <div class="text-muted small">Total acumulado del mes actual</div>
+                    <div class="fs-4 fw-bold">Gs {{ total_mes_actual|floatformat:0 }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mb-3">
+            <a class="btn btn-crear btn-sm" href="{% url 'gastos:crear_gasto' %}">
+                <i class="bi bi-plus-circle"></i> Nuevo gasto
+            </a>
+        </div>
+
+        {% if items_page %}
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="text-center table-head-color">
+                    <tr>
+                        <th style="color:white;">Fecha</th>
+                        <th style="color:white;">Compra</th>
+                        <th style="color:white;">Monto</th>
+                        <th style="color:white;">Registrado</th>
+                        <th style="color:white;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gasto in items_page %}
+                    <tr>
+                        <td>{{ gasto.fecha_gasto|date:"d/m/Y" }}</td>
+                        <td>{{ gasto.nombre }}</td>
+                        <td class="text-end">Gs {{ gasto.monto|floatformat:0 }}</td>
+                        <td>{{ gasto.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                        <td class="text-center">
+                            <a class="btn btn-crear btn-sm" href="{% url 'gastos:editar_gasto' gasto.id_gasto %}">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a class="btn btn-cancelar btn-sm" data-bs-toggle="modal" data-bs-target="#confirmarEliminarModal{{ gasto.id_gasto }}">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                            <div class="modal fade" id="confirmarEliminarModal{{ gasto.id_gasto }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirmar eliminacion</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Estas seguro de que deseas eliminar el gasto <strong>{{ gasto.nombre }}</strong>?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <a href="{% url 'gastos:eliminar_gasto' gasto.id_gasto %}" class="btn btn-danger">Eliminar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% include "base/pagination.html" with items_page=items_page querystring=current_query %}
+        {% else %}
+        {% include "base/sin_registro.html" %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base/base.html" %}
+
+{% block title %}Nuevo Gasto{% endblock %}
+
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+{% block content %}
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h2 class="card-title">Registrar gasto</h2>
+        <h6 class="card-subtitle mb-2 text-muted">Carga de compras realizadas</h6>
+        <a href="{% url 'gastos:gastos' %}" class="card-link mb-3">Volver al listado de gastos</a>
+
+        <form class="mt-3" method="POST">
+            {% csrf_token %}
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Compra</span>
+                <input type="text" class="form-control" name="nombre" placeholder="Ej: Compra de cuero vacuno" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Costo</span>
+                <input type="number" class="form-control" name="monto" min="0" step="0.01" placeholder="0" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Fecha</span>
+                <input type="date" class="form-control" name="fecha_gasto" value="{{ fecha_actual }}" required>
+            </div>
+
+            <div class="text-center mb-3">
+                <button type="submit" class="btn-crear mt-3">Guardar</button>
+                <button type="button" class="btn-cancelar mt-3" onclick="window.location.href='{% url 'gastos:gastos' %}'">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

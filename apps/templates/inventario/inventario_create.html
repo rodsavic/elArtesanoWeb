@@ -1,0 +1,51 @@
+{% extends "base/base.html" %}
+
+{% block title %}Nuevo Movimiento{% endblock %}
+
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+{% block content %}
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h2 class="card-title">Registrar movimiento</h2>
+        <h6 class="card-subtitle mb-2 text-muted">Entradas y salidas de productos</h6>
+        <a href="{% url 'inventario:inventario' %}" class="card-link mb-3">Volver al historial de movimientos</a>
+        <form class="mt-3" method="POST">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <label class="input-group-text">Producto</label>
+                <select class="form-control" name="producto" required>
+                    <option value="">Seleccionar...</option>
+                    {% for producto in productos %}
+                    <option value="{{ producto.id_producto }}">{{ producto.nombre }} | Stock: {{ producto.stock_actual|default:0 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text">Tipo</label>
+                <select class="form-control" name="tipo_movimiento" required>
+                    <option value="ENTRADA">Entrada</option>
+                    <option value="SALIDA">Salida</option>
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text">Cantidad</label>
+                <input type="number" class="form-control" name="cantidad" min="1" required>
+            </div>
+
+            <div class="input-group mb-3">
+                <label class="input-group-text">Fecha</label>
+                <input type="datetime-local" class="form-control" name="fecha_movimiento">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Observacion</label>
+                <textarea class="form-control" name="observacion" rows="3" placeholder="Motivo del movimiento"></textarea>
+            </div>
+            <button type="submit" class="btn-crear mt-3 ">Guardar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

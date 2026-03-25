@@ -1,0 +1,90 @@
+{% load static %}
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <a href="{% url 'dashboard:dashboard' %}" class="sidebar-logo">
+            <img src="{% static 'images/logo_real.png' %}" alt="El artesano" style="height: 40px;">
+            <span class="m-3">El artesano</span>
+        </a>
+        <button class="toggle-btn" id="sidebarToggle" type="button">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+
+    <ul class="sidebar-nav">
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+                <i class="lni lni-user"></i>
+                <span>{{ request.user.username }}</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="{% url 'ventas:ventas' %}" class="sidebar-link">
+                <i class="bi bi-receipt"></i>
+                <span>Ventas</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'dashboard:dashboard' %}" class="sidebar-link">
+                <i class="lni lni-agenda"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#adm"
+               aria-expanded="false" aria-controls="adm">
+                <i class="lni lni-protection"></i>
+                <span>Administracion</span>
+            </a>
+            <ul id="adm" class="sidebar-dropdown list-unstyled collapse">
+                <li class="sidebar-item">
+                    <a href="{% url 'usuarios:usuarios' %}" class="sidebar-link">
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'usuarios:roles' %}" class="sidebar-link">
+                        <span>Roles</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="{% url 'configuracion:empresa' %}" class="sidebar-link">
+                        <span>Configuracion Empresa</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'productos:productos' %}" class="sidebar-link">
+                <i class="bi bi-boxes"></i>
+                <span>Productos</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'clientes:clientes' %}" class="sidebar-link">
+                <i class="bi bi-people"></i>
+                <span>Clientes</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'inventario:inventario' %}" class="sidebar-link">
+                <i class="bi bi-box"></i>
+                <span>Movimientos</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{% url 'gastos:gastos' %}" class="sidebar-link">
+                <i class="bi bi-wallet2"></i>
+                <span>Gastos</span>
+            </a>
+        </li>
+
+        <li class="sidebar-item mt-5">
+            <a href="{% url 'authentication:logout' %}" class="sidebar-link" style="color:red">
+                <i class="bi bi-box-arrow-left"></i>
+                <span>Cerrar Sesion</span>
+            </a>
+        </li>
+    </ul>
+
+</nav>

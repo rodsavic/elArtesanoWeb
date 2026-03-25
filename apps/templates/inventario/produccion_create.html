@@ -1,0 +1,11 @@
+{% extends "base/base.html" %}
+{% block title %}Produccion{% endblock %}
+{% block content %}
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h2 class="card-title">Modulo reemplazado</h2>
+        <p>Para este negocio se registran entradas y salidas desde el modulo de movimientos.</p>
+        <a class="btn btn-crear" href="{% url 'inventario:crear_inventario' %}">Registrar movimiento</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Roles{% endblock %}
+
+{% block content %}
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h1>Lista de roles</h1>
+        <div class="row p-3 card-title align-items-center">
+            <div class="col-12 d-flex justify-content-md-end justify-content-center">
+                <a class="btn btn-crear btn-sm" href="{% url 'usuarios:crear_rol' %}" role="button">
+                    <i class="bi bi-plus-circle"></i> Crear rol</a>
+            </div>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="text-center table-head-color">
+                    <tr>
+                        <th style="color: white;">Nombre del Rol</th>
+                        <th style="color: white;">Permisos Asociados</th>
+                        <th style="color: white;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rol in roles %}
+                    <tr>
+                        <td>{{ rol.name }}</td>
+                        <td>
+                            {% if rol.permissions.all %}
+                            <ul>
+                                {% for permiso in rol.permissions.all %}
+                                <li>{{ permiso.name }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <span class="text-muted">Sin permisos asignados</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'usuarios:editar_rol' rol.id %}" class="btn btn-crear btn-sm">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="text-center">No hay roles registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

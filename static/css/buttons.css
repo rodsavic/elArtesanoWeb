@@ -1,0 +1,72 @@
+.card-link{
+    color: var(--color-primary);
+    display: block;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border-left: 3px solid transparent;
+}
+
+.card-link:hover{
+    color: var(--color-ink);
+}
+
+.btn-crear {
+    padding: 5px 15px;
+    white-space: initial;
+    border-radius: 8px;
+    background-color: var(--color-primary) !important;
+    color: white !important;
+    border: 2px solid var(--color-primary) !important;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    box-shadow: 0 8px 20px rgba(139, 94, 60, 0.15);
+}
+
+.btn-crear:hover {
+    background-color: white !important;
+    color: var(--color-primary) !important;
+    border: 2px solid var(--color-primary) !important;
+}
+
+.btn-limpiar {
+    padding: 5px 15px;
+    white-space: initial;
+    border-radius: 8px;
+    background-color: rgba(139, 94, 60, 0.04) !important;
+    color: var(--color-ink) !important;
+    border: 2px solid var(--color-primary-soft) !important;
+    font-weight: 500;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    display: inline-block;
+}
+
+.btn-limpiar:hover {
+    background-color: white !important;
+    color: var(--color-primary) !important;
+    border: 2px solid var(--color-primary) !important;
+}
+
+.btn-cancelar {
+    padding: 5px 15px;
+    white-space: initial;
+    border-radius: 8px;
+    background-color: var(--color-ink) !important;
+    color: #f6f1eb !important;
+    border: 2px solid var(--color-ink) !important;
+    font-weight: 500;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+    display: inline-block;
+}
+
+.btn-cancelar:hover {
+    background-color: white !important;
+    color: var(--color-ink) !important;
+    border: 2px solid var(--color-ink) !important;
+}

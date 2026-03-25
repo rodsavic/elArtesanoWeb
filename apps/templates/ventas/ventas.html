@@ -1,0 +1,130 @@
+{% extends "base/base.html" %}
+{% load humanize %}
+
+{% block title %}Ventas{% endblock %}
+
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+{% block content %}
+<style>
+    .ventas-resumen .resumen-item {
+        background: #f8f9fa;
+        border: 1px solid #ececec;
+        border-radius: 10px;
+        padding: 0.6rem 0.8rem;
+        height: 100%;
+    }
+
+    .ventas-actions {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+</style>
+
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h1>Ventas registradas</h1>
+        <div class="row p-3 card-title align-items-stretch ventas-resumen g-2">
+            <div class="col-md-3 col-12">
+                <div class="resumen-item">
+                    <h6 class="mb-0">Total del dia: {{ total_ventas|floatformat:0|intcomma }}</h6>
+                </div>
+            </div>
+            <div class="col-md-3 col-12">
+                <div class="resumen-item">
+                    <h6 class="mb-0">Efectivo: {{ total_efectivo|floatformat:0|intcomma }}</h6>
+                </div>
+            </div>
+            <div class="col-md-3 col-12">
+                <div class="resumen-item">
+                    <h6 class="mb-0">Otros medios: {{ total_otros_medios|floatformat:0|intcomma }}</h6>
+                </div>
+            </div>
+            <div class="col-md-3 col-12 d-flex justify-content-md-end justify-content-center gap-2">
+                <a class="btn btn-limpiar btn-sm" href="{% url 'ventas:ventas_historial' %}" role="button">
+                    <i class="bi bi-clock-history"></i> Historial
+                </a>
+                <a class="btn btn-crear btn-sm" href="{% url 'ventas:crear_venta' %}" role="button">
+                    <i class="bi bi-plus-circle"></i> Nueva Venta
+                </a>
+            </div>
+        </div>
+
+        {% if ventas_por_pagina %}
+        <div class="table-responsive card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="text-center table-head-color">
+                <tr>
+                    {% for columna in columnas %}
+                    <th style="color: white;">{{ columna }}</th>
+                    {% endfor %}
+                    <th style="color: white;">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for venta in ventas_por_pagina %}
+                <tr>
+                    <td>{{ venta.id_cliente.nombre }}</td>
+                    <td>{{ venta.total_venta|floatformat:0|intcomma }}</td>
+                    <td>{{ venta.total_iva_10|floatformat:0|intcomma }}</td>
+                    <td>{{ venta.formas_pago }}</td>
+                    <td>{% if venta.id_tipo_venta %}{{ venta.id_tipo_venta.nombre }}{% else %}-{% endif %}</td>
+                    <td>{{ venta.fecha_venta|date:"d/m/Y H:i" }}</td>
+                    <td class="text-center">
+                        <div class="ventas-actions">
+                            <a class="btn btn-cancelar btn-sm" data-bs-target="#confirmarEliminarModal{{ venta.id_venta }}"
+                               data-bs-toggle="modal" type="button">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                            <div aria-hidden="true" class="modal fade" id="confirmarEliminarModal{{ venta.id_venta }}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirmar eliminacion</h5>
+                                            <button aria-label="Cerrar" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Estas seguro de que deseas eliminar la venta? Esta accion no se puede deshacer.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
+                                            <a class="btn btn-danger" href="{% url 'ventas:eliminar_venta' venta.id_venta %}">Eliminar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a type="button" class="btn btn-crear btn-sm" href="{% url 'ventas:editar_venta' venta.id_venta %}">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a class="btn btn-limpiar btn-sm" href="{% url 'ventas:detalle_venta' venta.id_venta %}" type="button">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            {% if venta.factura_emitida %}
+                            <a class="btn btn-secondary btn-sm" href="{% url 'factura:detalle_factura' venta.id_factura_emitida %}" type="button" title="Ver factura">
+                                <i class="bi bi-file-earmark-text"></i>
+                            </a>
+                            <a class="btn btn-cancelar btn-sm" href="{% url 'factura:anular_factura' venta.id_venta %}" type="button" title="Anular factura">
+                                <i class="bi bi-file-earmark-x"></i>
+                            </a>
+                            {% else %}
+                            <a class="btn btn-crear btn-sm" href="{% url 'factura:emitir_factura' venta.id_venta %}" type="button" title="Emitir factura">
+                                <i class="bi bi-receipt"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% include "base/pagination.html" with items_page=ventas_por_pagina %}
+        {% else %}
+        {% include "base/sin_registro.html" %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

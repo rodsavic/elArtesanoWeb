@@ -1,0 +1,69 @@
+{% extends 'base/base.html' %}
+{% load humanize %}
+{% load custom_filters %}
+{% block title %}Detalle de venta{% endblock title %}
+
+{% block content %}
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h2 class="card-title">Detalle de venta</h2>
+        <a href="{% url 'ventas:ventas' %}" class="card-link mb-3">Volver a la lista de ventas</a>
+        <div class="row">
+            <div class="col-md-8 mt-3">
+                <div class="table-responsive p-0">
+                    <table class="table table-hover text-nowrap" id="tablaProductos" border="1">
+                        <thead class="table-head-color">
+                            <tr>
+                                <th class="text-center" style="color: white;">Producto</th>
+                                <th class="text-center" style="color: white;">Cantidad</th>
+                                <th class="text-center" style="color: white;">Precio Lista</th>
+                                <th class="text-center" style="color: white;">Precio Vendido</th>
+                                <th class="text-center" style="color: white;">Total</th>
+                                <th class="text-center" style="color: white;">IVA 10</th>
+                                <th class="text-center" style="color: white;">IVA 5</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            {% for detalle in detalle_venta %}
+                            <tr>
+                                <td>{{ detalle.id_producto.nombre }}</td>
+                                <td>{{ detalle.cantidad_producto|punto_comma }}</td>
+                                <td>{{ detalle.precio_lista|punto_comma }}</td>
+                                <td>{{ detalle.precio_unitario|punto_comma }}</td>
+                                <td>{{ detalle.total_detalle|punto_comma }}</td>
+                                <td>{{ detalle.total_iva_10|punto_comma }}</td>
+                                <td>{{ detalle.total_iva_5|punto_comma }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-3 card">
+                <div class="vstack gap-2">
+                    <div class="p-2">
+                        <label class="card-title" for="cliente">Cliente</label>
+                        <input class="form-control" type="text" name="id_cliente" id="id_cliente"
+                            value="{{ venta.id_cliente.nombre }}" readonly>
+                    </div>
+                    <div class="p-2">
+                        <label class="card-title" for="total_venta">Total venta:</label>
+                        <input class="form-control" type="text" name="total_venta" id="total_venta"
+                            value="{{ venta.total_venta|punto_comma }}" readonly>
+                    </div>
+                    <div class="p-2">
+                        <label class="card-title" for="total_iva_10">Total IVA 10:</label>
+                        <input class="form-control" type="text" name="total_iva_10" id="total_iva_10"
+                            value="{{ venta.total_iva_10|punto_comma }}" readonly>
+                    </div>
+                    <div class="p-2">
+                        <label class="card-title" for="total_iva_5">Total IVA 5:</label>
+                        <input class="form-control" type="text" name="total_iva_5" id="total_iva_5"
+                            value="{{ venta.total_iva_5|punto_comma }}" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+:root {
+    --color-primary: #8b5e3c;
+    --color-primary-dark: #6f4a2f;
+    --color-primary-soft: #d7b59a;
+    --color-primary-pale: #f3e6da;
+    --color-ink: #2f241d;
+    --color-surface: #faf7f3;
+    --color-shadow: rgba(111, 74, 47, 0.22);
+}
+
+::after,
+::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+h1 {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--color-ink);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, #fcfaf7 0%, var(--color-surface) 100%);
+}
+
+.main {
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    background-color: var(--color-surface);
+}
+
+.pagination .page-link {
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    background-color: white;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--color-primary);
+    color: white;
+    border: 1px solid var(--color-primary);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+}

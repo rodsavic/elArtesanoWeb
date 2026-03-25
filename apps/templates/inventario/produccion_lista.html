@@ -1,0 +1,11 @@
+{% extends "base/base.html" %}
+{% block title %}Produccion{% endblock %}
+{% block content %}
+<div class="card" style="width: 100%;">
+    <div class="card-body">
+        <h2 class="card-title">Modulo reemplazado</h2>
+        <p>En El artesano el inventario se maneja por movimientos de productos, por lo que la produccion diaria ya no aplica.</p>
+        <a class="btn btn-crear" href="{% url 'inventario:inventario' %}">Ver movimientos</a>
+    </div>
+</div>
+{% endblock %}
